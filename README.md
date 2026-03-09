@@ -16,7 +16,10 @@ Custom CNN for Persian digit classification (`0..9`) with training, evaluation, 
 ## Setup
 
 ```bash
-cd /Users/danial/llm/ml/persian-digit-recognizer
+cd /Users/danial/llm/ml
+# if not cloned yet:
+# git clone https://github.com/danialza/CNN-based-Persian-digit-recognizer-built-with-PyTorch.git persian-digit-recognizer
+cd persian-digit-recognizer
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -28,9 +31,9 @@ pip install -r requirements.txt
 git clone https://github.com/amir-saniyan/HodaDatasetReader.git
 
 python prepare_hoda.py \
-  --hoda-reader-path /Users/danial/llm/ml/persian-digit-recognizer/HodaDatasetReader/HodaDatasetReader.py \
-  --digitdb-dir /Users/danial/llm/ml/persian-digit-recognizer/HodaDatasetReader/DigitDB \
-  --output-dir /Users/danial/llm/ml/persian-digit-recognizer/dataset_hoda \
+  --hoda-reader-path HodaDatasetReader/HodaDatasetReader.py \
+  --digitdb-dir HodaDatasetReader/DigitDB \
+  --output-dir dataset_hoda \
   --include-remaining \
   --overwrite
 ```
@@ -42,8 +45,8 @@ export MPLCONFIGDIR=/tmp/matplotlib
 export XDG_CACHE_HOME=/tmp/.cache
 
 python train.py \
-  --dataset-dir /Users/danial/llm/ml/persian-digit-recognizer/dataset_hoda \
-  --output-dir /Users/danial/llm/ml/persian-digit-recognizer/runs/hoda-exp1 \
+  --dataset-dir dataset_hoda \
+  --output-dir runs/hoda-exp1 \
   --epochs 10 \
   --batch-size 128 \
   --num-workers 0
@@ -53,19 +56,19 @@ python train.py \
 
 ```bash
 python evaluate.py \
-  --dataset-dir /Users/danial/llm/ml/persian-digit-recognizer/dataset_hoda \
-  --model-path /Users/danial/llm/ml/persian-digit-recognizer/runs/hoda-exp1/best_model.pt \
+  --dataset-dir dataset_hoda \
+  --model-path runs/hoda-exp1/best_model.pt \
   --split test \
   --batch-size 128 \
   --num-workers 0 \
-  --output-dir /Users/danial/llm/ml/persian-digit-recognizer/runs/hoda-exp1
+  --output-dir runs/hoda-exp1
 ```
 
 ## Predict one image
 
 ```bash
 python predict.py \
-  --model-path /Users/danial/llm/ml/persian-digit-recognizer/runs/hoda-exp1/best_model.pt \
+  --model-path runs/hoda-exp1/best_model.pt \
   --image-path /absolute/path/to/image.png \
   --top-k 3
 ```
@@ -73,10 +76,10 @@ python predict.py \
 ## Experiment summary
 
 - Data paths used:
-- `/Users/danial/llm/ml/persian-digit-recognizer/HodaDatasetReader/DigitDB`
-- `/Users/danial/llm/ml/persian-digit-recognizer/dataset_hoda`
+- `HodaDatasetReader/DigitDB`
+- `dataset_hoda`
 - Output path:
-- `/Users/danial/llm/ml/persian-digit-recognizer/runs/hoda-exp1`
+- `runs/hoda-exp1`
 - Training example log:
 - `Epoch 01/10 | train_loss=0.1337 train_acc=0.9568 | val_loss=0.0312 val_acc=0.9902`
 - Final result:
@@ -86,3 +89,11 @@ python predict.py \
 - Confusion matrices:
 - `runs/hoda-exp1/val_confusion_matrix.png`
 - `runs/hoda-exp1/test_confusion_matrix.png`
+
+### Validation confusion matrix
+
+![Validation confusion matrix](docs/images/val_confusion_matrix.png)
+
+### Test confusion matrix
+
+![Test confusion matrix](docs/images/test_confusion_matrix.png)
