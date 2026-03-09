@@ -92,6 +92,55 @@ Artifacts in `runs/exp1`:
 - `val_confusion_matrix.png`
 - `test_confusion_matrix.png` (if test split exists)
 
+## Experiment report (June 2025)
+
+### Local paths used in this run
+
+- HODA reader repository: `/Users/danial/llm/ml/persian-digit-recognizer/HodaDatasetReader`
+- Raw HODA `.cdb` files: `/Users/danial/llm/ml/persian-digit-recognizer/HodaDatasetReader/DigitDB`
+- Converted ImageFolder dataset: `/Users/danial/llm/ml/persian-digit-recognizer/dataset_hoda`
+- Training outputs: `/Users/danial/llm/ml/persian-digit-recognizer/runs/hoda-exp1`
+
+### Training log
+
+- `Epoch 01/10`: end of the first epoch out of 10
+- `train_loss=0.1337`: training loss
+- `train_acc=0.9568`: training accuracy (`95.68%`)
+- `val_loss=0.0312`, `val_acc=0.9902`: validation performance (`99.02%`)
+
+### Evaluation
+
+- After each epoch, the model is evaluated on validation data.
+- The best model is selected and saved based on `val_acc`.
+- At the end, the best checkpoint is evaluated on the test split.
+- Final outputs are saved in `metrics.json` and confusion matrix images.
+
+### Model
+
+- Custom CNN: `PersianDigitCNN`
+- Architecture:
+- `Conv(1->32) + BatchNorm + ReLU + MaxPool`
+- `Conv(32->64) + BatchNorm + ReLU + MaxPool`
+- `Conv(64->128) + BatchNorm + ReLU + MaxPool`
+- `AdaptiveAvgPool(3x3)`
+- `Flatten -> Linear(1152->256) -> ReLU -> Dropout(0.3) -> Linear(256->10)`
+
+### Training setup
+
+- Loss: `CrossEntropyLoss`
+- Optimizer: `AdamW`
+
+### Final results (`runs/hoda-exp1`)
+
+- `best_val_acc=0.9976`
+- `test_loss=0.0169`
+- `test_acc=0.9956` (`99.56%`)
+
+### Confusion matrix outputs
+
+- Validation confusion matrix: `runs/hoda-exp1/val_confusion_matrix.png`
+- Test confusion matrix: `runs/hoda-exp1/test_confusion_matrix.png`
+
 ## Evaluate
 
 ```bash

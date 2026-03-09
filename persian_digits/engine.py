@@ -3,11 +3,15 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 
-import matplotlib.pyplot as plt
+import matplotlib
 import numpy as np
 import torch
 from torch import nn
 from torch.utils.data import DataLoader
+
+# Use a non-interactive backend so plots can be saved in headless environments.
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
 
 
 @dataclass
